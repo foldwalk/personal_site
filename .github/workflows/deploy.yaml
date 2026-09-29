@@ -1,0 +1,23 @@
+name: Deploy website
+
+# define trigger
+on:
+  push:
+    branches:
+      - main
+
+# define tasks
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # testing step
+      - name: Print a message
+        run: |
+          echo "Changes were pushed to the main branch!"
+          echo "Running build and testing..."
