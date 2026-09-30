@@ -13,11 +13,43 @@ jobs:
 
     steps:
       # checkout repo
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
       
-      # testing step
-      - name: Print a message
+      # setup pnpm + node
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      
+      # install dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      # build site
+      - name: Build Site
+        run: pnpm build
+      
+      # moves files to server
+      - name: Set up SSH
         run: |
-          echo "Changes were pushed to the main branch!"
-          echo "Running build and testing..."
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf "%s\n" '${{ secrets.DEPLOY_SSH_KEY }}' > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+      - name: Test
+        run: ls
+
+      # - name: Move to server
+      #   run: |
+      #     rsync -az --delete \
+      #       -e "ssh -i ~/.ssh/deploy_key" \
+            
