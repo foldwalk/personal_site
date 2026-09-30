@@ -73,11 +73,7 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key" \
             ./.next ./public \
             $DEPLOY_USER@$DEPLOY_HOST:/var/www/foldwalker.com/releases/$RELEASE
-      
-      # restart server
-      - name: Restart server
-        run:
-          RELEASE=$(date +%Y%m%d)-$(git rev-parse --short HEAD)
-
-          ssh -i ~/.ssh/deploy_key \
+          
+          ssh -i ~/.ssh/deploy_key $DEPLOY_USER@$DEPLOY_HOST \
             "sudo /usr/local/sbin/deploy-foldwalker.sh $RELEASE"
+
