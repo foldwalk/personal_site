@@ -51,4 +51,5 @@ jobs:
           rsync -az --delete \
             -e "ssh -i ~/.ssh/deploy_key" \
             ./.next ./public \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:~/test
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:\
+              ~/var/www/foldwalker/releases/$(date +%Y%m%d)-$(git rev-parse --short HEAD)
