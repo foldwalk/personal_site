@@ -40,7 +40,7 @@ jobs:
           rm -rf ~/deploy
           mkdir -p ~/deploy
 
-          cp -a .next/standalone/. ~/deploy
+          cp -a .next/standalone/. ~/deploy/
 
           mkdir -p ~/deploy/.next
           cp -a .next/static ~/deploy/.next/
@@ -71,8 +71,8 @@ jobs:
 
           rsync -az --delete --mkpath \
             -e "ssh -i ~/.ssh/deploy_key" \
-            ~/deploy \
-            $DEPLOY_USER@$DEPLOY_HOST:/var/www/foldwalker.com/releases/$RELEASE
+            ~/deploy/. \
+            $DEPLOY_USER@$DEPLOY_HOST:/var/www/foldwalker.com/releases/$RELEASE/
       
       # restart server
       - name: Restart server
@@ -80,6 +80,8 @@ jobs:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
         run: |
+          RELEASE=$(date +%Y%m%d)-$(git rev-parse --short HEAD)
+
           ssh -i ~/.ssh/deploy_key $DEPLOY_USER@$DEPLOY_HOST \
             "sudo /usr/local/sbin/deploy-foldwalker.sh $RELEASE"
 
