@@ -34,7 +34,22 @@ jobs:
       - name: Build Site
         run: pnpm build
       
-      # moves files to server
+      # build deployment bundle
+      - name: Build deployment bundle
+        run: |
+          rm -rf ~/deploy
+          mkdir -p ~/deploy
+
+          cp -a .next/standalone/. ~/deploy
+
+          mkdir -p ~/deploy/.next
+          cp -a .next/static ~/deploy/.next/
+
+          if [ -d public ]; then
+            cp -a public ~/deploy/
+          fi
+
+      # set up SSH
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
@@ -46,9 +61,23 @@ jobs:
           ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
+      # moves files to server
       - name: Move to server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
         run: |
+          RELEASE=$(date +%Y%m%d)-$(git rev-parse --short HEAD)
+
           rsync -az --delete --mkpath \
             -e "ssh -i ~/.ssh/deploy_key" \
             ./.next ./public \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/var/www/foldwalker/releases/$(date +%Y%m%d)-$(git rev-parse --short HEAD)
+            $DEPLOY_USER@$DEPLOY_HOST:/var/www/foldwalker.com/releases/$RELEASE
+      
+      # restart server
+      - name: Restart server
+        run:
+          RELEASE=$(date +%Y%m%d)-$(git rev-parse --short HEAD)
+
+          ssh -i ~/.ssh/deploy_key \
+            "sudo /usr/local/sbin/deploy-foldwalker.sh $RELEASE"
