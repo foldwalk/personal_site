@@ -71,9 +71,15 @@ jobs:
 
           rsync -az --delete --mkpath \
             -e "ssh -i ~/.ssh/deploy_key" \
-            ./.next ./public \
+            ~/deploy \
             $DEPLOY_USER@$DEPLOY_HOST:/var/www/foldwalker.com/releases/$RELEASE
-          
+      
+      # restart server
+      - name: Restart server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
           ssh -i ~/.ssh/deploy_key $DEPLOY_USER@$DEPLOY_HOST \
             "sudo /usr/local/sbin/deploy-foldwalker.sh $RELEASE"
 
