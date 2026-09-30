@@ -2,37 +2,39 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://foldwalker.com'),
-    title: {
-        default: "Jacob Vanluven",
-        template: "%s | Jacob Vanluven",
-    },
-    description: "Personal site for Jacob Vanluven: a game developer, pixel artist, and researcher.",
+	metadataBase: new URL('https://foldwalker.com'),
+	title: {
+		default: "Jacob Vanluven",
+		template: "%s | Jacob Vanluven",
+	},
+	description: "Personal site for Jacob Vanluven: a game developer, pixel artist, and researcher.",
 }
 
 export default function MainLayout({ children }: LayoutProps<"/">) {
-    const navItems = [
-        { label: "Home",     href: '/', },
-        { label: "About",    href: '/about', },
-        { label: "Projects", href: '/projects', },
-        { label: "Gallery",  href: '/gallery', },
-        { label: "Articles", href: '/posts', },
-    ]
+	const navItems = [
+		{ label: "Home", href: '/', },
+		{ label: "About", href: '/about', },
+		{ label: "Projects", href: '/projects', },
+		{ label: "Gallery", href: '/gallery', },
+		{ label: "Articles", href: '/posts', },
+	]
 
-    return (
-        <>
-            <header
-                className="
-                    flex items-center
+	return (
+		<>
+			<header
+				className="
+					flex items-center
 					h-10
-                    border-solid border-grey-50 border-b-2
-                "
-            >
-                <span className="text-xl pl-2">Jacob Vanluven</span>
+					bg-background
+					border-solid border-grey-50 border-b-2
+					sticky top-0 z-100
+				"
+			>
+				<span className="text-xl pl-2">Jacob Vanluven</span>
 
-                <nav className="flex pl-8 h-full">
-                    {navItems.map((item) => (
-                        <Link 
+				<nav className="flex pl-8 h-full">
+					{navItems.map((item) => (
+						<Link
 							href={item.href}
 							key={item.href}
 							className="
@@ -42,14 +44,18 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 								even:bg-gray-100
 							"
 						>
-                            <span className="">{item.label}</span>
-                        </Link>
-                    ))}
-                </nav>
-            
-            </header>
-            
-            {children}
-        </>
-  );
+							<span className="">{item.label}</span>
+						</Link>
+					))}
+				</nav>
+
+			</header>
+
+			{children}
+
+			<footer className="h-10 bg-gray-100">
+
+			</footer>
+		</>
+	);
 }
