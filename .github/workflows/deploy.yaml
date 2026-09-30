@@ -48,4 +48,4 @@ jobs:
           rsync -az --delete \
             -e "ssh -i ~/.ssh/deploy_key" \
             ./.next ./public \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}~/test
