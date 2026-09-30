@@ -84,4 +84,3 @@ jobs:
 
           ssh -i ~/.ssh/deploy_key $DEPLOY_USER@$DEPLOY_HOST \
             "sudo /usr/local/sbin/deploy-foldwalker.sh $RELEASE"
-
