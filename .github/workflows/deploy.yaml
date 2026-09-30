@@ -43,11 +43,9 @@ jobs:
           printf "%s\n" '${{ secrets.DEPLOY_SSH_KEY }}' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-      - name: Test
-        run: ls
-
-      # - name: Move to server
-      #   run: |
-      #     rsync -az --delete \
-      #       -e "ssh -i ~/.ssh/deploy_key" \
-            
+      - name: Move to server
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./.next ./public \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}
