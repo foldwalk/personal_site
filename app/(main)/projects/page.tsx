@@ -1,0 +1,16 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Projects",
+	description: "Originally just games, but as I've grown up I've started doing more things, so I put everything in one place.",
+}
+
+export default function Projects() {
+  return (
+    <div className="w-full grid place-items-center">
+      <main className="w-11/12 mt-10 mb-10">
+        
+      </main>
+    </div>
+  );
+}
