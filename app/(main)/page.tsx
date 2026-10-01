@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <div className="w-full grid place-items-center">
@@ -12,7 +10,7 @@ export default function Home() {
       >
         <div className="text-[#ffffff]">
           <h1 className="text-4xl">Jacob Vanluven</h1>
-          <p className="text-xl">Creating and exploring digital worlds through art, reasearch, and games</p>
+          <p className="text-xl">Creating and exploring digital worlds through art, research, and games</p>
         </div>
       </header>
 
