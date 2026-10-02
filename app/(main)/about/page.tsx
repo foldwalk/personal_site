@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react";
 
 export const metadata: Metadata = {
 	title: "About",
@@ -60,10 +60,14 @@ export default function About() {
       <main className="w-8/12 min-h-[calc(100dvh-20*var(--spacing))]">
         <h1 className="text-4xl text-center mt-10 mb-8">About Me</h1>
       
-        <div className="flex">
-          <aside className="w-4/10 ml-4 mr-4">
+        <div className="md:flex">
+          <section className="
+              w-full
+              md:w-4/10 md:ml-4 md:mr-4
+            "
+          >
             <Image
-              className="mb-1"
+              className="mb-1 w-full h-auto"
               src="/character.png"
               width={512} height={512}
               alt="Foldwalker Character"
@@ -90,17 +94,21 @@ export default function About() {
                 </address>
               </Fragment>
             ))}
-          </aside>
+          </section>
 
-          <section className="w-6/10 ml-4 mr-4">
+          <section className="
+              w-full mt-10
+              md:w-6/10 md:ml-4 md:mr-4 md:mt-0
+            "
+          >
             <h2 className="text-2xl border-solid">Who Am I?</h2>
             <p className="mb-6">
-              Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with master's in Data Science and Applied Mathematics following soon after.
+              Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
             </p>
             
             <h2 className="text-2xl border-solid">What Do I Do?</h2>
             <p className="mb-2">
-              I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interest for art, game development, and research into a single concept.
+              I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
             </p>
             <p className="mb-6">
               I originally started developing games in Unity, but switched to Godot after getting fed up with long compile times and Unity's poor decision making. I've used a few different pixel art programs, but I'm currently using Aseprite, and plan to continue using it for the foreseeable future! In terms of research, I mostly use Python with PyTorch's neural network modules.
