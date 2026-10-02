@@ -26,7 +26,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 					flex items-center
 					h-10
 					bg-background
-					border-solid border-grey-50 border-b-2
+					border-solid border-gray-300 border-b-2
 					sticky top-0 z-100
 				"
 			>
@@ -53,7 +53,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 
 			{children}
 
-			<footer className="h-10 bg-gray-100">
+			<footer className="h-10 mt-10 bg-gray-100">
 
 			</footer>
 		</>
