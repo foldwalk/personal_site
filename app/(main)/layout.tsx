@@ -55,13 +55,14 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 							key={item.href}
 							className="
 								flex items-center
-								pl-6 pr-6 -ml-1.5 -mr-1.5
+								pl-6 pr-6 -ml-1 -mr-1
+								pl-4 pr-4
 								h-full
-                font-(family-name:--font-arvo)
+                				font-(family-name:--font-arvo)
 								hover:bg-gray-300
-								odd:[clip-path:polygon(0_0,100%_0,90%_100%,10%_100%)]
+								odd:[clip-path:polygon(0_0,100%_0,calc(100%-0.5rem)_100%,0.5rem_100%)]
 								odd:bg-gray-100
-								even:[clip-path:polygon(10%_0,90%_0,100%_100%,0_100%)]
+								even:[clip-path:polygon(0.5rem_0,calc(100%-0.5rem)_0,100%_100%,0_100%)]
 								even:bg-gray-200
 							"
 						>
@@ -74,7 +75,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 
 			{children}
 
-			<footer className="h-10 mt-10 bg-gray-100">
+			<footer className="h-12 mt-10 bg-gray-100">
 
 			</footer>
 		</>

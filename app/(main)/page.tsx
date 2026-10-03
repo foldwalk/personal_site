@@ -14,7 +14,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="w-11/12 mt-10 mb-10">
+      {/* <main className="w-11/12 md:w-10/12 mt-10 pb-4 bg-background">
         <section className="w-full">
           <h2 className="text-xl">About</h2>
           <p>This section is a bit more about me</p>
@@ -24,7 +24,7 @@ export default function Home() {
           <h2 className="text-xl">Projects</h2>
           <p>Here's a brief introduction to my projects</p>
         </section>
-      </main>
+      </main> */}
     </div>
   );
 }

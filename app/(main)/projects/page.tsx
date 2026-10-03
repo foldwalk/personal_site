@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function Projects() {
   return (
     <div className="w-full grid place-items-center">
-      <main className="w-11/12 mt-10 mb-10">
+      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-48*var(--spacing))] mt-10 pb-4 bg-background">
         
       </main>
     </div>
