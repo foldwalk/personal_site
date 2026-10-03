@@ -56,7 +56,7 @@ export default function About() {
 
   return (
     <div className="w-full grid place-items-center">
-      <main className="w-8/12 min-h-[calc(100dvh-48*var(--spacing))]">
+      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-48*var(--spacing))] mt-10 pb-4 bg-background">
         <h1 className="text-4xl text-center mt-10 mb-8">About Me</h1>
       
         <div className="md:flex items-start h-full">
