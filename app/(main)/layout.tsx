@@ -27,15 +27,15 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 					flex items-center
 					h-12
 					bg-background
-					border-solid border-gray-300 border-b-2
 					sticky top-0 z-100
 				"
 			>
 				<div className="
 						flex items-center
-						h-16 top-2 relative pr-6
+						h-16 top-2 relative pr-6 -mr-1
+						w-49 min-w-49
 						bg-background
-						[clip-path:polygon(0_0,90%_0,100%_100%,0_100%)]
+						[clip-path:polygon(0_0,100%_0,100%_calc(100%-1rem),calc(100%-1rem)_100%,0_100%)]
 					"
 				>
 					<Image
@@ -45,7 +45,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 						alt="Foldwalker Character"
 					/>
 
-					<span className="text-xl pl-2">Jacob<br/>Vanluven</span>
+					<span className="text-xl pl-2 font-(family-name:--font-arvo)">Jacob<br/>Vanluven</span>
 				</div>
 
 				<nav className="flex h-full">
@@ -55,9 +55,14 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 							key={item.href}
 							className="
 								flex items-center
-								pl-4 pr-4
+								pl-6 pr-6 -ml-1.5 -mr-1.5
 								h-full
-								even:bg-gray-100
+                font-(family-name:--font-arvo)
+								hover:bg-gray-300
+								odd:[clip-path:polygon(0_0,100%_0,90%_100%,10%_100%)]
+								odd:bg-gray-100
+								even:[clip-path:polygon(10%_0,90%_0,100%_100%,0_100%)]
+								even:bg-gray-200
 							"
 						>
 							<span className="">{item.label}</span>
