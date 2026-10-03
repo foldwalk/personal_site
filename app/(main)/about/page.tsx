@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react";
 
 export const metadata: Metadata = {
 	title: "About",
@@ -57,12 +56,13 @@ export default function About() {
 
   return (
     <div className="w-full grid place-items-center">
-      <main className="w-8/12 min-h-[calc(100dvh-20*var(--spacing))]">
-        <h1 className="text-4xl text-center mt-10 mb-8">About Me</h1>
+      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-20*var(--spacing))] mt-10 pb-4 bg-background">
+        <h1 className="text-4xl text-center mt-4 mb-8">About Me</h1>
       
-        <div className="md:flex">
+        <div className="md:flex items-start h-full">
           <section className="
-              w-full
+              w-9/10 ml-auto mr-auto
+              flex flex-wrap justify-center items-start
               md:w-4/10 md:ml-4 md:mr-4
             "
           >
@@ -74,30 +74,29 @@ export default function About() {
             />
 
             <h2 className="text-center text-xl">Contact Info</h2>
-            
-            {contactInfo.map((item) => (
-              <Fragment key={item.name}>
-                <h3 className="text-lg border-b-2 border-gray-300 mt-4">{item.name}</h3>
-                <address className="not-italic w-full flex justify-around">
-                  {item.links.map((link) => (
-                    <Link href={link.href} key={link.name} className="
-                        grow text-center
-                        pt-1 pb-1
-                        bg-gray-100
-                        hover:bg-gray-200
-                        duration-100
+              {contactInfo.map((item) => (
+                <div key={item.name} className="w-full">
+                  <h3 className="text-lg border-b-2 border-gray-300 mt-4">{item.name}</h3>
+                  <address className="not-italic w-full flex flex-wrap justify-around">
+                    {item.links.map((link) => (
+                      <Link href={link.href} key={link.name} className="
+                      grow text-center
+                      p-1
+                      bg-gray-100
+                      hover:bg-gray-200
+                      duration-100
                       "
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </address>
-              </Fragment>
-            ))}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </address>
+                </div>
+              ))}
           </section>
 
           <section className="
-              w-full mt-10
+              w-9/10 ml-auto mr-auto mt-10
               md:w-6/10 md:ml-4 md:mr-4 md:mt-0
             "
           >

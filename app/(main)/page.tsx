@@ -3,7 +3,7 @@ export default function Home() {
     <div className="w-full grid place-items-center">
       <header className="
           grid place-items-center
-          bg-[#080112]
+          bg-space-background
           w-full h-[calc(100dvh-10*var(--spacing))]
           text-center
         "
