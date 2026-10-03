@@ -56,18 +56,24 @@ export default function About() {
 
   return (
     <div className="w-full grid place-items-center">
-      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-48*var(--spacing))] mt-10 pb-4 bg-background">
-        <h1 className="text-4xl text-center mt-10 mb-8">About Me</h1>
+      <main className="
+          w-10/12 min-h-[calc(100dvh-48*var(--spacing))] 
+          mt-10 mb-10 p-10 bg-background
+          md:w-8/12
+          [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_100%,40%_calc(100%-1rem),0_100%)]
+        "
+      >
+        <h1 className="text-4xl text-center mb-8">About Me</h1>
       
         <div className="md:flex items-start h-full">
           <section className="
-              w-9/10 ml-auto mr-auto
+              w-full ml-auto mr-auto
               flex flex-wrap justify-center items-start
-              md:w-4/10 md:ml-4 md:mr-4
+              md:w-4/10 md:mr-4
             "
           >
             <Image
-              className="mb-1 w-full h-auto"
+              className="mb-1 w-full h-auto [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_calc(100%-1rem),40%_100%,0_calc(100%-1rem))]"
               src="/character.png"
               width={512} height={512}
               alt="Foldwalker Character"
@@ -96,30 +102,36 @@ export default function About() {
           </section>
 
           <section className="
-              w-9/10 ml-auto mr-auto mt-10
-              md:w-6/10 md:ml-4 md:mr-4 md:mt-0
+              w-full ml-auto mr-auto mt-10
+              md:w-6/10 md:ml-4 md:mt-0
             "
           >
-            <h2 className="text-2xl border-solid">Who Am I?</h2>
-            <p className="mb-6">
-              Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
-            </p>
+            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0,100%_0.5rem,100%_calc(100%-0.5rem),0_100%)]">
+              <h2 className="text-2xl border-solid">Who Am I?</h2>
+              <p>
+                Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
+              </p>
+            </div>
             
-            <h2 className="text-2xl border-solid">What Do I Do?</h2>
-            <p className="mb-2">
-              I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
-            </p>
-            <p className="mb-6">
-              I originally started developing games in Unity, but switched to Godot after getting fed up with long compile times and Unity's poor decision making. I've used a few different pixel art programs, but I'm currently using Aseprite, and plan to continue using it for the foreseeable future! In terms of research, I mostly use Python with PyTorch's neural network modules.
-            </p>
+            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0.5rem,100%_0,100%_100%,0_calc(100%-0.5rem))]">
+              <h2 className="text-2xl border-solid">What Do I Do?</h2>
+              <p className="mb-2">
+                I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
+              </p>
+              <p>
+                I originally started developing games in Unity, but switched to Godot after getting fed up with long compile times and Unity's poor decision making. I've used a few different pixel art programs, but I'm currently using Aseprite, and plan to continue using it for the foreseeable future! In terms of research, I mostly use Python with PyTorch's neural network modules.
+              </p>
+            </div>
             
-            <h2 className="text-2xl border-solid">Current Interests</h2>
-            <p className="mb-2">
-              My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
-            </p>
-            <p className="mb-2">
-              Right now I'm working on recreating a few assets from other games in order to build up my visual vocabulary a bit more and get out of a bit of artist block. I've been planning out a large-scale RPG for the past few years, slowly whittling away at it over time. I'm still actively working on this project, and plan to continue more serious development after my art studies!
-            </p>
+            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0,100%_0.5rem,100%_calc(100%-0.5rem),0_100%)]">
+              <h2 className="text-2xl border-solid">Current Interests</h2>
+              <p className="mb-2">
+                My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
+              </p>
+              <p>
+                Right now I'm working on recreating a few assets from other games in order to build up my visual vocabulary a bit more and get out of a bit of artist block. I've been planning out a large-scale RPG for the past few years, slowly whittling away at it over time. I'm still actively working on this project, and plan to continue more serious development after my art studies!
+              </p>
+            </div>
           </section>
         </div>
       </main>
