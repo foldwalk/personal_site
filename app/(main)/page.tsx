@@ -20,8 +20,11 @@ export default function Home() {
           My name is Jacob Vanluven and I make games and pixel art. Check out some of my recent updates below, or some of the other pages for more info about me and what I do!
         </p>
 
-        <h2 className="text-2xl">Welcome!</h2>
+        <h3 className="text-xl mt-6">Recent Projects:</h3>
+        <p>Check out some of my recent projects:</p>
 
+        <h3 className="text-xl mt-6">Recent Posts:</h3>
+        <p>Check out some of my recent articles and blog posts:</p>
       </main>
     </div>
   );
