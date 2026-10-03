@@ -4,7 +4,7 @@ export default function Home() {
       <header className="
           grid place-items-center
           bg-space-background
-          w-full h-[calc(100dvh-10*var(--spacing))]
+          w-full h-[calc(100vh-12*var(--spacing))]
           text-center
         "
       >
@@ -14,17 +14,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* <main className="w-11/12 md:w-10/12 mt-10 pb-4 bg-background">
-        <section className="w-full">
-          <h2 className="text-xl">About</h2>
-          <p>This section is a bit more about me</p>
-        </section>
-
-        <section className="w-full">
-          <h2 className="text-xl">Projects</h2>
-          <p>Here's a brief introduction to my projects</p>
-        </section>
-      </main> */}
+      <main className="w-10/12 md:w-8/12 mt-10 mb-10 pb-4 bg-background p-10">
+        <h2 className="text-2xl">Welcome!</h2>
+        <p>
+          My name is Jacob Vanluven and I make games and pixel art. Check out some of my recent updates below, or some of the other pages for more info about me and what I do!
+        </p>
+      </main>
     </div>
   );
 }

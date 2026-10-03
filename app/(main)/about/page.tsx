@@ -56,14 +56,14 @@ export default function About() {
 
   return (
     <div className="w-full grid place-items-center">
-      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-48*var(--spacing))] mt-10 pb-4 bg-background">
-        <h1 className="text-4xl text-center mt-10 mb-8">About Me</h1>
+      <main className="w-10/12 md:w-8/12 min-h-[calc(100dvh-48*var(--spacing))] mt-10 mb-10 p-10 bg-background">
+        <h1 className="text-4xl text-center mb-8">About Me</h1>
       
         <div className="md:flex items-start h-full">
           <section className="
-              w-9/10 ml-auto mr-auto
+              w-full ml-auto mr-auto
               flex flex-wrap justify-center items-start
-              md:w-4/10 md:ml-4 md:mr-4
+              md:w-4/10 md:mr-4
             "
           >
             <Image
@@ -96,8 +96,8 @@ export default function About() {
           </section>
 
           <section className="
-              w-9/10 ml-auto mr-auto mt-10
-              md:w-6/10 md:ml-4 md:mr-4 md:mt-0
+              w-full ml-auto mr-auto mt-10
+              md:w-6/10 md:ml-4 md:mt-0
             "
           >
             <h2 className="text-2xl border-solid">Who Am I?</h2>
@@ -117,7 +117,7 @@ export default function About() {
             <p className="mb-2">
               My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
             </p>
-            <p className="mb-2">
+            <p>
               Right now I'm working on recreating a few assets from other games in order to build up my visual vocabulary a bit more and get out of a bit of artist block. I've been planning out a large-scale RPG for the past few years, slowly whittling away at it over time. I'm still actively working on this project, and plan to continue more serious development after my art studies!
             </p>
           </section>
