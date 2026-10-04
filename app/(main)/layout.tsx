@@ -39,7 +39,8 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 					"
         >
           <Image
-            className="mb-1 w-12 h-12 ml-4 mr-2"
+            className="mb-1 w-12 h-12 ml-4 mr-2 pixelated"
+            unoptimized
             src="/character_no_bg.png"
             width={512} height={512}
             alt="Foldwalker Character"

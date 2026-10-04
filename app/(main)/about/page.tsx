@@ -73,7 +73,8 @@ export default function About() {
             "
           >
             <Image
-              className="mb-1 w-full h-auto [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_calc(100%-1rem),40%_100%,0_calc(100%-1rem))]"
+              className="mb-1 w-full h-auto [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_calc(100%-1rem),40%_100%,0_calc(100%-1rem))] pixelated"
+              loading="eager" unoptimized
               src="/character.png"
               width={512} height={512}
               alt="Foldwalker Character"
