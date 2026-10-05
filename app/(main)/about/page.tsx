@@ -57,10 +57,10 @@ export default function About() {
   return (
     <div className="w-full grid place-items-center">
       <main className="
-          w-10/12 min-h-[calc(100dvh-48*var(--spacing))] 
-          mt-10 mb-10 p-10 bg-background
-          md:w-8/12
-          [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_100%,40%_calc(100%-1rem),0_100%)]
+          w-11/12 min-h-[calc(100dvh-48*var(--spacing))] 
+          mt-10 mb-10 p-5 pt-10 pb-10 bg-background
+          md:w-8/12 md:p-10
+          clipped-panel
         "
       >
         <h1 className="text-4xl text-center mb-8">About Me</h1>
@@ -73,7 +73,7 @@ export default function About() {
             "
           >
             <Image
-              className="mb-1 w-full h-auto [clip-path:polygon(0_1rem,60%_0,100%_1rem,100%_calc(100%-1rem),40%_100%,0_calc(100%-1rem))] pixelated"
+              className="mb-1 w-full h-auto clipped-panel pixelated"
               loading="eager" unoptimized
               src="/character.png"
               width={512} height={512}
@@ -83,14 +83,14 @@ export default function About() {
             <h2 className="text-center text-xl">Contact Info</h2>
               {contactInfo.map((item) => (
                 <div key={item.name} className="w-full">
-                  <h3 className="text-lg border-b-2 border-gray-300 mt-4">{item.name}</h3>
+                  <h3 className="text-lg border-b-2 border-slate-300 mt-4">{item.name}</h3>
                   <address className="not-italic w-full flex flex-wrap justify-around">
                     {item.links.map((link) => (
                       <Link href={link.href} key={link.name} className="
                       grow text-center
                       p-1
-                      bg-gray-100
-                      hover:bg-gray-200
+                      bg-slate-100
+                      hover:bg-slate-200
                       duration-100
                       "
                       >
@@ -107,14 +107,14 @@ export default function About() {
               md:w-6/10 md:ml-4 md:mt-0
             "
           >
-            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0,100%_0.5rem,100%_calc(100%-0.5rem),0_100%)]">
+            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
               <h2 className="text-2xl border-solid">Who Am I?</h2>
               <p>
                 Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
               </p>
             </div>
             
-            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0.5rem,100%_0,100%_100%,0_calc(100%-0.5rem))]">
+            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-l">
               <h2 className="text-2xl border-solid">What Do I Do?</h2>
               <p className="mb-2">
                 I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
@@ -124,7 +124,7 @@ export default function About() {
               </p>
             </div>
             
-            <div className="bg-gray-200 p-2 pt-3 pb-3 mb-2 [clip-path:polygon(0_0,100%_0.5rem,100%_calc(100%-0.5rem),0_100%)]">
+            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
               <h2 className="text-2xl border-solid">Current Interests</h2>
               <p className="mb-2">
                 My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
