@@ -79,7 +79,7 @@ export default function About() {
                 <h3 className="text-lg border-b-2 border-slate-300 mt-4">{item.name}</h3>
                 <address className="not-italic w-full flex flex-wrap justify-around">
                   {item.links.map((link) => (
-                    <Link href={link.href} key={link.name} className="
+                    <Link href={link.href} key={link.name} target="_blank" rel="noopener noreferrer" prefetch={false} className="
                     grow text-center
                     p-1
                     bg-slate-100
