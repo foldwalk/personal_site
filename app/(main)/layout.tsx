@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 
+import NavButton from "@main/nav_button";
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://foldwalker.com'),
   title: {
@@ -51,24 +53,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
 
         <nav className="flex h-full">
           {navItems.map((item) => (
-            <Link
-              href={item.href}
-              key={item.href}
-              className="
-								flex items-center
-								pl-6 pr-6 -ml-1 -mr-1
-								pl-4 pr-4
-								h-full
-                				font-(family-name:--font-arvo)
-								hover:bg-gray-300
-								odd:[clip-path:polygon(0_0,100%_0,calc(100%-0.5rem)_100%,0.5rem_100%)]
-								odd:bg-gray-100
-								even:[clip-path:polygon(0.5rem_0,calc(100%-0.5rem)_0,100%_100%,0_100%)]
-								even:bg-gray-200
-							"
-            >
-              <span className="">{item.label}</span>
-            </Link>
+            <NavButton key={item.href} link={item.href} label={item.label} />
           ))}
         </nav>
 
