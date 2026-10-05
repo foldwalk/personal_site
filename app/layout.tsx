@@ -1,5 +1,4 @@
 import { Arvo, Montserrat } from "next/font/google";
-import "./globals.css";
 
 const arvo = Arvo({
   weight: ["400", "700"],
