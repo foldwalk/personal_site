@@ -1,17 +1,28 @@
+import Image from "next/image";
+
 export default function WizbowoHome() {
   return (
     <div className="w-full grid place-items-center">
       <header className="
           grid place-items-center
-          bg-space-background
-          w-full h-[calc(100vh-12*var(--spacing))]
+          bg-[url('/wizbowo/game_screenshot.png')]
+          bg-cover bg-center
+          w-full h-[calc(100vh-16*var(--spacing))]
           text-center
         "
       >
-        <div className="text-[#ffffff]">
-          <h1 className="text-4xl">Jacob Vanluven</h1>
-          <p className="text-xl">Creating and exploring digital worlds through art, research, and games</p>
-        </div>
+        <Image
+          className="hidden md:block w-8/10 h-auto pixelated mb-64"
+          src="/wizbowo/title_long.png"
+          width={304} height={42}
+          alt="Wizbowo's Conquest"
+        />
+        <Image
+          className="block md:hidden w-8/10 h-auto pixelated mb-64"
+          src="/wizbowo/title_stacked.png"
+          width={105} height={68}
+          alt="Wizbowo's Conquest"
+        />
       </header>
 
       <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 clipped-panel">
