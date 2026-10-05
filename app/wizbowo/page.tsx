@@ -1,0 +1,5 @@
+export default function WizbowoHome() {
+  return <div>
+    <h1>Hello World!</h1>
+  </div>
+}
