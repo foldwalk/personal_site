@@ -1,27 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --ink: #b3c0df;
+  --background: #19204d;
   --foreground: #171717;
-  --space-background: #110223;
+  --header: #060828;
+  --header-light: #19204d;
 }
 
 @theme inline {
+  --color-ink: var(--ink);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-space-background: var(--space-background);
-  --font-sans: var(--font-montserrat);
-  --font-serif: var(--font-arvo);
+  --color-header: var(--header);
+  --color-header-light: var(--header-light);
+  --font-sans: var(--font-cause);
 }
 
 body {
-  background: var(--space-background);
-  color: var(--foreground);
-  font-family: var(--font-montserrat);
+  background-image: url('/wizbowo/background_small.png');
+  color: var(--ink);
+  font-family: var(--font-cause);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-arvo);
+  font-family: var(--font-cause);
 }
 
 .pixelated {

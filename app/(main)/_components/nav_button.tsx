@@ -31,7 +31,6 @@ export default function NavButton({ link, label }: NavButtonProps) {
     className={`
         flex items-center
         pl-6 pr-6 -ml-1 -mr-1
-        pl-4 pr-4
         h-full
         font-(family-name:--font-arvo)
         hover:bg-[var(--btn-hover)]
