@@ -14,8 +14,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="w-10/12 md:w-8/12 mt-10 mb-10 bg-background p-10">
-        <h2 className="text-2xl">Welcome!</h2>
+      <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 clipped-panel">
+        <h2 className="text-3xl text-center mb-4">Welcome!</h2>
         <p>
           My name is Jacob Vanluven and I make games and pixel art. Check out some of my recent updates below, or some of the other pages for more info about me and what I do!
         </p>
