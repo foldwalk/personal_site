@@ -55,87 +55,79 @@ export default function About() {
   ]
 
   return (
-    <div className="w-full grid place-items-center">
-      <main className="
-          w-11/12 min-h-[calc(100dvh-48*var(--spacing))] 
-          mt-10 mb-10 p-5 pt-10 pb-10 bg-background
-          md:w-8/12 md:p-10
-          clipped-panel
-        "
-      >
-        <h1 className="text-4xl text-center mb-8">About Me</h1>
-      
-        <div className="md:flex items-start h-full">
-          <section className="
-              w-full ml-auto mr-auto
-              flex flex-wrap justify-center items-start
-              md:w-4/10 md:mr-4
-            "
-          >
-            <Image
-              className="mb-1 w-full h-auto clipped-panel pixelated"
-              loading="eager" unoptimized
-              src="/character.png"
-              width={512} height={512}
-              alt="Foldwalker Character"
-            />
+    <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 clipped-panel">
+      <h1 className="text-4xl text-center mb-8">About Me</h1>
+    
+      <div className="md:flex items-start h-full">
+        <section className="
+            w-full ml-auto mr-auto
+            flex flex-wrap justify-center items-start
+            md:w-4/10 md:mr-4
+          "
+        >
+          <Image
+            className="mb-1 w-full h-auto clipped-panel pixelated"
+            loading="eager" unoptimized
+            src="/character.png"
+            width={512} height={512}
+            alt="Foldwalker Character"
+          />
 
-            <h2 className="text-center text-xl">Contact Info</h2>
-              {contactInfo.map((item) => (
-                <div key={item.name} className="w-full">
-                  <h3 className="text-lg border-b-2 border-slate-300 mt-4">{item.name}</h3>
-                  <address className="not-italic w-full flex flex-wrap justify-around">
-                    {item.links.map((link) => (
-                      <Link href={link.href} key={link.name} className="
-                      grow text-center
-                      p-1
-                      bg-slate-100
-                      hover:bg-slate-200
-                      duration-100
-                      "
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </address>
-                </div>
-              ))}
-          </section>
+          <h2 className="text-center text-xl">Contact Info</h2>
+            {contactInfo.map((item) => (
+              <div key={item.name} className="w-full">
+                <h3 className="text-lg border-b-2 border-slate-300 mt-4">{item.name}</h3>
+                <address className="not-italic w-full flex flex-wrap justify-around">
+                  {item.links.map((link) => (
+                    <Link href={link.href} key={link.name} className="
+                    grow text-center
+                    p-1
+                    bg-slate-100
+                    hover:bg-slate-200
+                    duration-100
+                    "
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </address>
+              </div>
+            ))}
+        </section>
 
-          <section className="
-              w-full ml-auto mr-auto mt-10
-              md:w-6/10 md:ml-4 md:mt-0
-            "
-          >
-            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
-              <h2 className="text-2xl border-solid">Who Am I?</h2>
-              <p>
-                Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
-              </p>
-            </div>
-            
-            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-l">
-              <h2 className="text-2xl border-solid">What Do I Do?</h2>
-              <p className="mb-2">
-                I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
-              </p>
-              <p>
-                I originally started developing games in Unity, but switched to Godot after getting fed up with long compile times and Unity's poor decision making. I've used a few different pixel art programs, but I'm currently using Aseprite, and plan to continue using it for the foreseeable future! In terms of research, I mostly use Python with PyTorch's neural network modules.
-              </p>
-            </div>
-            
-            <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
-              <h2 className="text-2xl border-solid">Current Interests</h2>
-              <p className="mb-2">
-                My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
-              </p>
-              <p>
-                Right now I'm working on recreating a few assets from other games in order to build up my visual vocabulary a bit more and get out of a bit of artist block. I've been planning out a large-scale RPG for the past few years, slowly whittling away at it over time. I'm still actively working on this project, and plan to continue more serious development after my art studies!
-              </p>
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
+        <section className="
+            w-full ml-auto mr-auto mt-10
+            md:w-6/10 md:ml-4 md:mt-0
+          "
+        >
+          <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
+            <h2 className="text-2xl border-solid">Who Am I?</h2>
+            <p>
+              Hello! I'm Jacob Vanluven, a game developer, pixel artist, and researcher interested in creating and exploring digital worlds. I've been making games and pixel art since I started programming back in 2019. I'm still working my way through my bachelor's degree in Computer Science and Mathematics, with a master's in Data Science and Applied Mathematics following soon after.
+            </p>
+          </div>
+          
+          <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-l">
+            <h2 className="text-2xl border-solid">What Do I Do?</h2>
+            <p className="mb-2">
+              I like to say I make small digital worlds on the internet! I like this phrasing since it encompasses my interests in art, game development, and research into a single concept.
+            </p>
+            <p>
+              I originally started developing games in Unity, but switched to Godot after getting fed up with long compile times and Unity's poor decision making. I've used a few different pixel art programs, but I'm currently using Aseprite, and plan to continue using it for the foreseeable future! In terms of research, I mostly use Python with PyTorch's neural network modules.
+            </p>
+          </div>
+          
+          <div className="bg-slate-200 p-2 pt-3 pb-3 mb-2 squeeze-r">
+            <h2 className="text-2xl border-solid">Current Interests</h2>
+            <p className="mb-2">
+              My primary interest is creating personalized, human experiences through games and art. I don't use any generative AI in my creative hobbies, and don't plan to in the future.
+            </p>
+            <p>
+              Right now I'm working on recreating a few assets from other games in order to build up my visual vocabulary a bit more and get out of a bit of artist block. I've been planning out a large-scale RPG for the past few years, slowly whittling away at it over time. I'm still actively working on this project, and plan to continue more serious development after my art studies!
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
