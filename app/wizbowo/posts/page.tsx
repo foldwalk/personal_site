@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function Posts() {
   return (
-    <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 clipped-panel">
-
+    <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8">
+      
     </main>
   );
 }
