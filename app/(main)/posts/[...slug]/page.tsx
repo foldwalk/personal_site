@@ -1,11 +1,28 @@
-import path from "node:path";
+import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
 
 import { getPost } from "@/lib/posts/posts";
-import { notFound } from "next/navigation";
-
 import PostContent from "@/components/posts/post_content";
 
-export default async function Page({ params, }: { params: Promise<{ slug: string }> }) {
+type PostProps = {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {};
+  }
+
+  return {
+    title: post.meta.title,
+    description: post.meta.description,
+  }
+}
+
+export default async function Page({ params }: PostProps) {
   const { slug } = await params
   const post = await getPost(slug);
 
