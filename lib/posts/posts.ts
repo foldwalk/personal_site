@@ -17,8 +17,30 @@ export type Post = {meta: PostMetadata, content: string} | null
 const MORE_TAG = '{/* <-- more --> */}';
 
 // ========== Functions ========== //
-export async function getPosts() {
+export async function getPosts(rootPath: string = "/content/posts") {
+  const filePath = path.join(
+    process.cwd(),
+    rootPath
+  );
 
+  return _findPost(filePath);
+}
+
+async function _findPost(rootPath: string, returnPath: string = ""): Promise<string[]> {
+  const files = await fs.readdir(rootPath, { withFileTypes: true });
+  let result: string[] = [];
+
+  for (const file of files) {
+    console.log(file)
+
+    if (file.isDirectory()) {
+      result = result.concat(await _findPost(path.join(rootPath, file.name), path.join(returnPath, file.name)));
+    } else {
+      result.push(path.join(returnPath, file.name));
+    }
+  }
+
+  return result;
 }
 
 export async function getPost(slug: string | string[]): Promise<Post> {
@@ -26,11 +48,19 @@ export async function getPost(slug: string | string[]): Promise<Post> {
     slug = path.join(...slug);
   }
 
+  // Add extension
+  let file = slug;
+  if (!file.endsWith('.mdx')) {
+    file += '.mdx';
+  }
+
   const filePath = path.join(
     process.cwd(),
     "content/posts",
-    `${slug}.mdx`
+    file
   )
+
+  console.log(filePath)
 
   // Try to read target file
   try {

@@ -1,8 +1,14 @@
 import { notFound } from "next/navigation"
 
-import { Post } from "@/lib/posts/posts"
+import { Post, getPost } from "@/lib/posts/posts"
 
-export default async function PostCard({ post }: { post: Post }) {
+export default async function PostCard({ post = null, postSlug = "" }: { post?: Post | null, postSlug?: string }) {
+  if (!post && postSlug !== "") {
+    post = await getPost(postSlug!);
+  }
+
+  console.log(postSlug);
+
   if (post) {
     return (
       <>
@@ -12,7 +18,5 @@ export default async function PostCard({ post }: { post: Post }) {
         </p>
       </>
     )
-  } else {
-    return notFound();
   }
 }
