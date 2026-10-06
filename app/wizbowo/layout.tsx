@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 // ========== Font ========== //
-import { Cause, Inter, Geist_Pixel, Pixelify_Sans } from "next/font/google";
+import { Cause, Inter, Geist_Pixel, Pixelify_Sans, Jersey_25 } from "next/font/google";
 
 const cause = Cause({
   variable: "--font-cause",
@@ -29,6 +29,12 @@ const pixelify = Pixelify_Sans({
   subsets: ["latin"],
 });
 
+const jersy25 = Jersey_25({
+  weight: '400',
+  variable: "--font-jersy-25",
+  subsets: ["latin"],
+});
+
 // ========== Metadata ========== //
 export const metadata: Metadata = {
   metadataBase: new URL('https://wizbowo.foldwalker.com'),
@@ -49,7 +55,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
   ]
 
   return (
-    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable} ${inter.variable} ${geist_pixel.variable} ${pixelify.variable}`}>
+    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable} ${inter.variable} ${geist_pixel.variable} ${pixelify.variable} ${jersy25.variable}`}>
       <header
         className="
           h-16

@@ -38,23 +38,26 @@ export default function WizbowoHome() {
       </header>
 
       <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 rounded">
-        <h2 className="text-3xl text-center mb-4">Download Links:</h2>
-        <div className="flex flex-wrap justify-center">
-          {links.map((link) => (
-            <Link href={link.href} key={link.href}
-              className="
-                p-4 mt-4 mb-4 md:mt-0 md:mb-0 md:ml-4 md:mr-4
-                bg-background rounded
-                text-xl
-                hover:scale-110
-                hover:!border-background-hover
-                duration-100
-              "
-            >
-              {link.text}
-            </Link>
-          ))}
-        </div>
+        <section className="bg-background-border/30 p-4 rounded">
+          <h2 className="text-4xl text-center mb-4">Download Links:</h2>
+          
+          <div className="flex flex-wrap justify-center">
+            {links.map((link) => (
+              <Link href={link.href} key={link.href}
+                className="
+                  p-4 mb-4 md:mb-0 md:ml-4 md:mr-4
+                  bg-background rounded
+                  text-3xl [font-family:var(--font-jersy-25)]
+                  hover:scale-110
+                  hover:!border-background-hover
+                  duration-100
+                "
+              >
+                {link.text}
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
