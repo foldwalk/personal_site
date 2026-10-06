@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { getPost } from "@/lib/posts/posts";
 import { notFound } from "next/navigation";
 

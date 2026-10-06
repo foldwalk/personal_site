@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 
+// ========== Types & Constants ========== //
 type PostMetadata = {
   slug: string,
   title: string,
@@ -11,9 +12,20 @@ type PostMetadata = {
   thumbnail?: string,
 }
 
-export type PostReturn = {meta: PostMetadata, content: string} | null
+export type Post = {meta: PostMetadata, content: string} | null
 
-export async function getPost(slug: string): Promise<PostReturn> {
+const MORE_TAG = '{/* <-- more --> */}';
+
+// ========== Functions ========== //
+export async function getPosts() {
+
+}
+
+export async function getPost(slug: string | string[]): Promise<Post> {
+  if (Array.isArray(slug)) {
+    slug = path.join(...slug);
+  }
+
   const filePath = path.join(
     process.cwd(),
     "content/posts",
@@ -25,6 +37,8 @@ export async function getPost(slug: string): Promise<PostReturn> {
     const source = await fs.readFile(filePath, 'utf-8');
     const { data, content } = matter(source);
 
+    data.slug = slug;
+
     return {
       meta: data as PostMetadata,
       content
@@ -32,4 +46,11 @@ export async function getPost(slug: string): Promise<PostReturn> {
   } catch {
     return null;
   }
+}
+
+export function getPostPreview(content: string): string {
+  // Find tag
+  const [ preview ] = content.split(MORE_TAG);
+
+  return preview;
 }
