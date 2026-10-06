@@ -5,12 +5,28 @@ import Link from "next/link";
 import Image from "next/image";
 
 // ========== Font ========== //
-import { Cause } from "next/font/google";
+import { Cause, Inter, Geist_Pixel, Pixelify_Sans } from "next/font/google";
 
 const cause = Cause({
   variable: "--font-cause",
   subsets: ["latin"],
   adjustFontFallback: false,
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const geist_pixel = Geist_Pixel({
+  variable: "--font-geist-pixel",
+  subsets: ["latin"],
+  adjustFontFallback: false,
+});
+
+const pixelify = Pixelify_Sans({
+  variable: "--font-pixelify",
+  subsets: ["latin"],
 });
 
 // ========== Metadata ========== //
@@ -33,7 +49,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
   ]
 
   return (
-    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable}`}>
+    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable} ${inter.variable} ${geist_pixel.variable} ${pixelify.variable}`}>
       <header
         className="
           h-16
@@ -44,7 +60,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
         <nav className="h-16 flex items-center justify-center">
           <Link href="/about" className="
               flex justify-center items-center
-              w-20 h-full pl-4 pr-4
+              w-24 h-full pl-4 pr-4
               text-center text-xl text-ink
               [font-family:var(--font-cause)]
               hover:bg-header-light
@@ -73,7 +89,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
           </Link>
           <Link href="/posts" className="
               flex justify-center items-center
-              w-20 h-full pl-4 pr-4
+              w-24 h-full pl-4 pr-4
               text-center text-xl text-ink
               [font-family:var(--font-cause)]
               hover:bg-header-light

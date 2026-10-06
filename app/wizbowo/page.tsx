@@ -1,6 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function WizbowoHome() {
+  const links = [
+    {
+      href: "https://foldwalk.itch.io/wizbowos-conquest",
+      text: "Download from Itch.io",
+    },
+    {
+      href: "https://github.com/foldwalk/cmsc-473-game",
+      text: "View Code on GitHub",
+    },
+  ]
+
   return (
     <div className="w-full grid place-items-center">
       <header className="
@@ -25,17 +37,24 @@ export default function WizbowoHome() {
         />
       </header>
 
-      <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 clipped-panel">
-        <h2 className="text-3xl text-center mb-4">Welcome!</h2>
-        <p>
-          My name is Jacob Vanluven and I make games and pixel art. Check out some of my recent updates below, or some of the other pages for more info about me and what I do!
-        </p>
-
-        <h3 className="text-xl mt-6">Recent Projects:</h3>
-        <p>Check out some of my recent projects:</p>
-
-        <h3 className="text-xl mt-6">Recent Posts:</h3>
-        <p>Check out some of my recent articles and blog posts:</p>
+      <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-8 bg-background md:w-8/12 md:p-8 rounded">
+        <h2 className="text-3xl text-center mb-4">Download Links:</h2>
+        <div className="flex flex-wrap justify-center">
+          {links.map((link) => (
+            <Link href={link.href} key={link.href}
+              className="
+                p-4 mt-4 mb-4 md:mt-0 md:mb-0 md:ml-4 md:mr-4
+                bg-background rounded
+                text-xl
+                hover:scale-110
+                hover:!border-background-hover
+                duration-100
+              "
+            >
+              {link.text}
+            </Link>
+          ))}
+        </div>
       </main>
     </div>
   );

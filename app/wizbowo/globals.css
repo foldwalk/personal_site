@@ -2,7 +2,9 @@
 
 :root {
   --ink: #b3c0df;
-  --background: #19204d;
+  --background: #2764ba;
+  --background-border: #08102e;
+  --background-hover: #a7b7dc;
   --foreground: #171717;
   --header: #060828;
   --header-light: #19204d;
@@ -11,10 +13,17 @@
 @theme inline {
   --color-ink: var(--ink);
   --color-background: var(--background);
+  --color-background-border: var(--background-border);
+  --color-background-hover: var(--background-hover);
   --color-foreground: var(--foreground);
   --color-header: var(--header);
   --color-header-light: var(--header-light);
   --font-sans: var(--font-cause);
+}
+
+.rounded {
+  border: 4px solid var(--background-border);
+  border-radius: 8px;
 }
 
 body {
@@ -24,7 +33,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-cause);
+  font-family: var(--font-geist-pixel);
 }
 
 .pixelated {
