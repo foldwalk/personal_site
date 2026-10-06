@@ -8,6 +8,7 @@ type PostMetadata = {
   slug: string,
   title: string,
   description: string,
+  tags?: string[],
   publishedAt: string,
   modifiedAt?: string,
   thumbnail?: string,

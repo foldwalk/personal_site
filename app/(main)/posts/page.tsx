@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getPosts } from "@/lib/posts/posts";
+import { getFilteredPosts } from "@/lib/posts/filtered";
 import PostCard from "@/components/posts/post_card";
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Posts() {
-  const posts = await getPosts();
+  const posts = await getFilteredPosts();
 
   return (
     <main className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-10 bg-background md:w-8/12 md:p-8 md:pb-10 clipped-panel">
