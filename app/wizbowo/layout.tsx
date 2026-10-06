@@ -5,28 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 // ========== Font ========== //
-import { Cause, Inter, Geist_Pixel, Pixelify_Sans, Jersey_25 } from "next/font/google";
+import { Cause, Jersey_25 } from "next/font/google";
 
 const cause = Cause({
   variable: "--font-cause",
   subsets: ["latin"],
   adjustFontFallback: false,
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const geist_pixel = Geist_Pixel({
-  variable: "--font-geist-pixel",
-  subsets: ["latin"],
-  adjustFontFallback: false,
-});
-
-const pixelify = Pixelify_Sans({
-  variable: "--font-pixelify",
-  subsets: ["latin"],
 });
 
 const jersy25 = Jersey_25({
@@ -55,7 +39,7 @@ export default function MainLayout({ children }: LayoutProps<"/">) {
   ]
 
   return (
-    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable} ${inter.variable} ${geist_pixel.variable} ${pixelify.variable} ${jersy25.variable}`}>
+    <div className={`flex flex-col justify-center min-h-[100dvh] ${cause.variable} ${jersy25.variable}`}>
       <header
         className="
           h-16
