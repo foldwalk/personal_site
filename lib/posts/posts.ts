@@ -4,6 +4,7 @@ import matter from "gray-matter";
 
 // ========== Types & Constants ========== //
 type PostMetadata = {
+  visible: boolean,
   slug: string,
   title: string,
   description: string,
@@ -12,12 +13,12 @@ type PostMetadata = {
   thumbnail?: string,
 }
 
-export type Post = {meta: PostMetadata, content: string} | null
+export type PostInfo = {meta: PostMetadata, content: string} | null
 
 const MORE_TAG = '{/* <-- more --> */}';
 
 // ========== Functions ========== //
-export async function getPosts(rootPath: string = "/content/posts") {
+export async function getPosts(rootPath: string = "/content/posts"): Promise<PostInfo[]> {
   const filePath = path.join(
     process.cwd(),
     rootPath
@@ -26,24 +27,22 @@ export async function getPosts(rootPath: string = "/content/posts") {
   return _findPost(filePath);
 }
 
-async function _findPost(rootPath: string, returnPath: string = ""): Promise<string[]> {
+async function _findPost(rootPath: string, returnPath: string = ""): Promise<PostInfo[]> {
   const files = await fs.readdir(rootPath, { withFileTypes: true });
-  let result: string[] = [];
+  let result: PostInfo[] = [];
 
   for (const file of files) {
-    console.log(file)
-
     if (file.isDirectory()) {
       result = result.concat(await _findPost(path.join(rootPath, file.name), path.join(returnPath, file.name)));
     } else {
-      result.push(path.join(returnPath, file.name));
+      result.push(await getPost(path.join(returnPath, file.name)));
     }
   }
 
   return result;
 }
 
-export async function getPost(slug: string | string[]): Promise<Post> {
+export async function getPost(slug: string | string[]): Promise<PostInfo> {
   if (Array.isArray(slug)) {
     slug = path.join(...slug);
   }
@@ -60,14 +59,17 @@ export async function getPost(slug: string | string[]): Promise<Post> {
     file
   )
 
-  console.log(filePath)
-
   // Try to read target file
   try {
     const source = await fs.readFile(filePath, 'utf-8');
     const { data, content } = matter(source);
 
-    data.slug = slug;
+    // Validate/fill defaults
+    [ data.slug ] = slug.split('.mdx');
+
+    if (data.visible === undefined) {
+      data.visible = true;
+    }
 
     return {
       meta: data as PostMetadata,
