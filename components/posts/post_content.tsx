@@ -55,6 +55,20 @@ export default async function PostContent({ post, className = "" }: Props) {
 
         <h1 className="mt-4">{post.meta.title}</h1>
 
+        <span className="publish-date">
+          {post.meta.publishedAt.toLocaleDateString('en-US',
+            { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' }
+          )}
+        </span>
+
+        {post.meta.modifiedAt &&
+          <span className="modify-date">
+            (modified {post.meta.modifiedAt.toLocaleDateString('en-US',
+              { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' }
+            )})
+          </span>
+        }
+
         <MDXRemote
           source={post.content}
           components={MDXComponents}

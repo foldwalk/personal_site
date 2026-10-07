@@ -9,8 +9,8 @@ type PostMetadata = {
   title: string,
   description: string,
   tags?: string[],
-  publishedAt: string,
-  modifiedAt?: string,
+  publishedAt: Date,
+  modifiedAt?: Date,
   thumbnail?: string,
 }
 

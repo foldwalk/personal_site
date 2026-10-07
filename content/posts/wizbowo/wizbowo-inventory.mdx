@@ -4,6 +4,118 @@ description: A basic overview of the most important parts of the inventory syste
 tags:
   - Wizbowo's Conquest
 publishedAt: 2026-05-05
+modifiedAt: 2026-10-07
 visible: true
 ---
 
+## Introduction
+The inventory in Wizbowo's Conquest is a very typical 2D sandbox inventory. This blog is a basic overview of the functions of the inventory and how some of them are implemented. This post is only going to go over the following five most important methods from the inventory script and give an idea of what each does and some examples of how each works:
+- `add_item(item_id, amount){:gdscript}`
+- `interact_with_slot(index){:gdscript}`
+- `receive_inventory(inventory_data){:gdscript}`
+- `request_craft(recipe_index){:gdscript}`
+- `interact_with_external_slot(index, player_inv){:gdscript}`
+
+{/* <-- more --> */}
+
+## Overview
+The first thing to know about the inventory in Wizbowo's Conquest, is that it is not just a list of item names, it is a collection of item stacks, a class we made which stores the `item_id{:.variable}` and the count of the item. Here is the very simple `ItemStack{:.class}` class:
+
+```gdscript title="GDScript | Item Stack"
+class ItemStack:
+	var item_id: int = -1
+	var count: int = 0 # quantity of a specific stack
+	
+	func _init(p_item: int = -1, p_count: int = 0):
+		item_id = p_item
+		count = p_count
+
+	func is_empty() -> bool:
+		return item_id < 0 or count <= 0
+```
+
+As you can see, it is very simple. The inventory is just an array of these item stacks, fixed to a size of 50 slots.
+
+<aside className="bg-slate-200 p-4 mt-4 mb-4 squeeze-r">
+  <span className='text-lg font-semibold'>Implementation Detail:</span>
+
+  Items are referenced by their item IDs, integers that help keep everything organized. Those item IDs are picked up by the `ItemDatabase{:.class}` script from our file system. Our items are all named in the following pattern, `#_itemName{:.string.quoted}`. The `ItemDatabase{:.class}` simply splits the number from the `itemName{:.string.quoted}` so it can be referenced in other scripts using its `get_item{:.entity.name.function}` method.
+</aside>
+
+The final thing for this overview of the Inventory is that the Server is the final authority for what items are where. This means that most methods either check if they are running on the server with `multiplayer.is_server{:.variable}` or send a Remote Procedure Call (RPC) to the server to tell the server that the client did something. This caused quite a few headaches but is absolutely necessary for a multiplayer game to function.
+
+## Add Item
+The add item method does exactly what it sounds like, it adds an item to an inventory and merges it if possible. It is used in multiple cases, such as when a player picks up an item off the ground, or when they take an item from a chest into their own inventory.
+
+To make the inventory feel "smart," this method uses two loops:
+1. First, it iterates through all slots to find an existing stack of the same item that isn't full yet.
+2. If it can't find a stack or there is still a remainder, it runs a second loop to find the first available empty slot.
+
+```gdscript title="GDScript | Add Item Logic"
+# attempt to add to existing stacks
+for stack in items:
+    if not stack.is_empty() and stack.item_id == item_id:
+        var space = item.max_stack - stack.count
+        var adding = min(space, amount)
+        stack.count += adding
+        amount -= adding
+        if amount <= 0: 
+            inventory_updated.emit()
+            return 0
+```
+
+## Interact with Slot
+This is the engine behind the UI. Whenever you click a slot in your inventory, this method determines what you were trying to do based on what is currently in that slot and what is currently "held" by your mouse cursor.
+
+It handles four main logic paths:
+1. Picking up an item
+2. Placing an item into an empty slot
+3. Merging two stacks of the same item
+4. Swapping two different items entirely
+
+By using temporary variables during the swap, we ensure that no data is lost if the server takes a moment to validate the move.
+
+## Receive Inventory
+Since the server is the authority, it periodically sends the full inventory state to the client using binary serialization. The client receives this as a `PackedByteArray{:.class}` and unpacks it to update the UI.
+
+One interesting challenge we faced was the audio. If we just played a "pickup" sound every time the inventory count increased, joining a server would cause up to 50 sounds (one per item stack) to play at once as your inventory loaded, which was obviously very loud. To get around this, we implemented a set of checks that suppress audio during the initial load or the first few frames of the game.
+
+```gdscript title="GDScript | Muzzle"
+# The Muzzle
+var audio_is_suppressed = _is_first_load or not _can_play_sounds or Engine.get_frames_drawn() < 30
+
+# play sounds ONLY if not suppressed
+if not multiplayer.is_server() and not audio_is_suppressed:
+    if armor_changed:
+        Globals.music.play_armor_equip_sound()
+    elif new_count > old_count:
+        Globals.music.play_item_pickup_sound()
+```
+
+## Request Craft
+Crafting in Wizbowo's Conquest is handled safely to prevent networking desyncs. When a player clicks "Craft," the client sends a `send_craft_request{:.function}` RPC to the server.
+
+The server then sets an `_is_crafting{:.variable}` flag to `true{:.constant.language}`. This effectively pauses the standard inventory networking updates while the `CraftingManager{:.class}` removes ingredients and adds the new item. Once the process is finished, the flag is toggled back, and one single, final "Source of Truth" update is sent to the client.
+
+## Interact with External Slot
+Finally, we have the method that allows you to interact with chests or other containers. What makes this cool is that it reuses the same logic as your internal inventory but operates on two different inventory instances at once.
+
+When you click a slot in a chest, the method takes the `player_inv{:.variable}` as an argument. It then performs the same swap/merge logic between the chest's slot and the player's "held item". Because this happens on the server, both the chest and the player's inventory are updated and synced simultaneously.
+
+```gdscript title="GDScript | External Interaction"
+# swap (both full, different item IDs)
+elif not player_held.is_empty() and not slot_item.is_empty() and player_held.item_id != slot_item.item_id:
+    var temp_id = slot_item.item_id
+    var temp_count = slot_item.count
+    slot_item.item_id = player_held.item_id
+    slot_item.count = player_held.count
+    player_held.item_id = temp_id
+    player_held.count = temp_count
+```
+
+## Conclusion
+Overall, I am happy with where the inventory is as of right now, even though I do intend on adding several quality of life features in the future including item descriptions on hover, but for now, these are the most important parts of the inventory. Thank you for reading!
+
+<div className='flex justify-center p-8'>
+  [Check out Wizbowo's Conquest!](https://foldwalk.itch.io/wizbowos-conquest)
+</div>

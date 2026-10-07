@@ -5,5 +5,130 @@ tags:
   Game Jam
   Post Mortem
 publishedAt: 2026-05-15
+modifiedAt: 2026-10-07
 visible: true
 ---
+
+## Context
+<em>PRESSURE PANIC!</em> was my entry into the second <strong>Oink Jam</strong>. We were given an option of two themes to work with: <strong>Under Pressure</strong> and <strong>Imposter</strong>. I went with the former. The Oink Jam runs over the course of two weeks, but my college finals ran over the first week so I was limited to just 1 week of actual focus.
+
+Due to my time constraints, I considered a few simple options when deciding where to go:
+- A <strong>puzzle game</strong> using building steam that acts as both a resource and a hazard when bursting out of pipes
+- A <strong>train-management game</strong> where you must conduct a train while disasters rain around. This might have also come with an imposter twist to incorporate both themes
+- An <strong>exploration game</strong> based around traversing through a tight, dark cave; upgrading a deep-sea submarine to reach the treasure that lies at the end
+
+I had originally planned on going with the first option. However, I've worked on a few other puzzle games for previous jams and wanted to try something new. The second option was where I ultimately want to go, at least thematically. The Legend of Zelda: Spirit Tracks is one of my favorite games of all time, and I eventually want to make a spiritual successor when I gain a more stable foundation. This option seemed appealing, but ultimately I wasn't as hooked on it as the third option.
+
+{/* <-- more --> */}
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of the caves in PRESSURE PANIC!](/posts/game-jams/oink-jam-2/caves.png)
+  </div>
+  <em className='text-center'>A screenshot from PRESSURE PANIC!</em>
+</div>
+
+The exploration game with a heavy focus on upgrades was heavily inspired by an old flash game: [<em>Johnny Upgrade</em>](https://www.coolmathgames.com/0-johnny-upgrade). I remember playing this game years ago in middle school, and it always stuck with me. It has a very satisfying, quick game loop where you had to collect coins before running out of time, upgrading your character between attempts.
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of the starting area in Johnny Upgrade](/posts/game-jams/oink-jam-2/johnny_upgrade.png)
+  </div>
+  <em className='text-center'>The starting screen from Johnny Upgrade</em>
+</div>
+
+Here's the general idea:
+- <em>PRESSURE PANIC!</em> uses a top-down view, which leads to a different feel than <em>Johnny Upgrade</em>
+- To tie in the theme of <strong>Under Pressure</strong> a bit more, the player controls a deep-sea submarine
+- There will be a large, winding cave to test the player's control over their submarine, with the final goal to reach the bottom
+
+## Core Design
+Similarly to Johnny Upgrade, <em>PRESSURE PANIC!</em> uses a timer (flavored as oxygen capacity) to limit how long the player has to explore the cave. This resets at the start of each run. Oxygen capacity is one of many different abilities that you can upgrade throughout the game. There is also movement speed, turn speed, health, a currency multiplier, and a few upgrades for each of the unlockable abilities.
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of the upgrade system in PRESSURE PANIC!](/posts/game-jams/oink-jam-2/upgrades.png)
+  </div>
+  <em className='text-center'>Some of the upgrades available in PRESSURE PANIC!</em>
+</div>
+
+The cave system was a fun and unique challenge to plan out. Most of my previous level design experience has been with more open environments:
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of an area from Folds Among Stars](/posts/game-jams/oink-jam-2/fas_area.png)
+  </div>
+  <em className='text-center'>An old iteration of the starting area of my project Folds Among Stars</em>
+</div>
+
+The final cave system is fairly small, but I think gives a good sense of exploration. I've had a few people test out the game, and they all seemed to enjoy the experience of finding their way through the branching pathways. One thing I like to do is give myself a rough idea of how I'm going to implement an area. For this game, it was a simple doodle in my notes app:
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-6/10 md:w-4/10 h-auto'>
+    ![Screenshot of the original map drawing](/posts/game-jams/oink-jam-2/notes_map.jpg)
+  </div>
+  <em className='text-center'>The phone sketch of the cave system</em>
+</div>
+
+Overall, the final cave actually stuck to this design pretty well. I'll get into more detail about some of the missing components later on, but the general structure remains largely the same (although the final game doesn't really have any clean rectangles, instead using natural cave-like walls).
+
+The two main abilities you can unlock are the <strong>Dash</strong> and the <strong>Cannon</strong>. These are mainly used to improve exploration, but the cannon is required to finish the game. I would have liked to have a few more use cases for these abilities, but I'm happy with how they turned out.
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of the mockup for the game](/posts/game-jams/oink-jam-2/mockup.png)
+  </div>
+  <em className='text-center'>A mockup of the game created in Aseprite</em>
+</div>
+
+For the art side of things, I wanted to go with a style that's a bit different than I'm used to. For this game, I wanted to focus on a more casual friendly style with thick double-width pixel art outlines and relatively low color count for most objects. Overall, I'm very happy with this decision as it allowed me to put less time into grinding through complex art assets and more time into making sure I have a fun concept to work with. Since I'm doing all the art, coding, and designing myself, I need to make sure I'm not getting tunnel vision on any single aspect of game development. This has been a hard lesson to learn, but one I'm getting more and more familiar with.
+
+## What Went Well
+I ended up with a game I'm very happy with and a final product that, while I could have added more, feels complete. I've been developing games and creating art since 2019, but I'm still not used to sound design and music production. I've been attempting to learn composing and SFX creation, but it's a bit too much to focus on while still sharpining my other skills.
+
+### Sound Effects
+These are the royalty-free sources I ended up using:
+- FilmCow's libraries were an amazing resource for game SFX: [FilmCow Libraries](https://filmcow.itch.io)
+- To fill in the UI sounds, I used this pack: [Fantasy UI Sound Effects](https://ateliermagicae.itch.io/fantasy-ui-sound-effects)
+- And for the music, I found this beautiful looping track in the public domain on OpenGameArt: [Exploration Theme](https://opengameart.org/content/exploration-theme)
+
+Because I had such a large variety of sound effects to pull from, I was able to make an audio experience that I was happy with. This took a lot of time just scanning through assets, thinking about how they could be transformed, and where they could be used. It helped that most of my sound effects would be put through a heavy “underwater” filter (low pass + reverb).
+
+### Explosion SFX
+My favorite sound design choice was for the sea mine explosions:
+- There wasn't a clean explosion sound effect in the libraries I had
+- I found a balloon pop that, when put through the underwater filter, ended up being a good base
+- Adding some bubble sounds and lowering the pitch were the final touches to create a powerful burst
+
+The result isn't perfect, but it taught me a lot about sound design and augmentation, and I'm pretty happy with how it turned out.
+
+<div className='flex flex-col items-center pt-4 pb-4'>
+  <div className='w-full md:w-8/10 h-auto'>
+    ![Screenshot of the dash upgrade in PRESSURE PANIC!](/posts/game-jams/oink-jam-2/dash.png)
+  </div>
+  <em className='text-center'>Finding the dash upgrade in PRESSURE PANIC!</em>
+</div>
+
+I think the game has a very cohesive art direction, with everything feeling like a part of the same world. As mentioned before, this jam ran over finals week at my college, so I was limited in terms of time. However, because many participants were in the same situation, the jam was actually extended for another day. This extra time gave me time for some much-needed visual polish:
+- Implemented Godot's lighting system to make the deep caves more immersive and interesting
+- Added some minor sea floor details to make the cave feel more alive
+- Completely overhauled the Itch page to remove some generic/basic assets. Everything on the page is now cave-related and relates much closer to the vibe of the game
+
+## What Went Wrong
+Ultimately, I don't think much went wrong apart from scope being cut. I've had a large issue with scope creep, so for this game I decided to keep the scope small:
+- 1 decently sized cave map to explore
+- Simple movement with a dash and cannon firing
+- 3 entities: stationary sea mines, patrolling pufferfish, and chasing killer fish
+- A current system that requires the dash to push through
+- Full sound design and a pre-made music track
+
+The only things from this list that didn't make it were the pufferfish, killer fish, and the currents. This wasn't an explicit design choice, but rather a natural cut-off point. With 1 day remaining, I had all of the key mechanics, the sea mine, and the full map planned out. However, the game was missing some necessary juice to make it fun to play. I made the decision to cut the extra content which would require extra coding, art assets for the entities, and design reworks for the already existing map. I believe that I could have gotten these elements implemented, but the overall experience would have been worse because of it. It would have given me less polish time, and less time to work on the final presentation on Itch.
+
+## Key Takeaway
+Typically, I struggle with short-term game projects, especially during game jams. I like to make things perfect, and I like to put my best foot forward. However, these two things do not need to be hand-in-hand, and my output has been struggling because I have historically assumed the opposite. According to Itch, I have entered 38 game jams, and have submitted entries for just 3 of them. <em>PRESSURE PANIC!</em> proved to me that I can still make good games in a time crunch, and that these games don't need to be perfect. “Perfect is the enemy of good” is something I've heard countless times, and something I never really saw in myself until recently. This game jam, and the completion of it, has served as a good reflection point for myself and my game development journey. I am truly happy with this game, and I am proud to talk about it!
+
+If you would like to check it out for yourself, visit the itch page below:
+
+<div className='flex justify-center p-8'>
+  [Check out PRESSURE PANIC! on Itch.io](https://foldwalk.itch.io/pressure-panic-jam)
+</div>
