@@ -28,7 +28,7 @@ const MDXComponents = {
     }
 
     // default to standard link
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
+    return <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
   },
 
   img: (props: any) => (
@@ -51,7 +51,7 @@ export default async function PostContent({ post, className = "" }: Props) {
   if (post) {
     return (
       <div className={className}>
-        <Link href="/posts">Return to Articles</Link>
+        <Link className="return-link" href="/posts">Return to Articles</Link>
 
         <h1 className="mt-4">{post.meta.title}</h1>
 

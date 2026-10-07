@@ -13,13 +13,59 @@
     margin-top: calc(4 * var(--spacing));
   }
 
+  h4 {
+    font-size: var(--text-lg);
+    margin-top: calc(2 * var(--spacing));
+  }
+
+  p {
+    padding-bottom: calc(2 * var(--spacing));
+  }
+
   ul {
     list-style: disc;
     margin-left: calc(6 * var(--spacing));
+    padding-bottom: calc(2 * var(--spacing));
+  }
+
+  ol {
+    list-style: decimal;
+    margin-left: calc(6 * var(--spacing));
+    padding-bottom: calc(2 * var(--spacing));
   }
 
   a {
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  a.return-link::before {
+    content: "";
+    display: inline-block;
+
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+
+    background-image: url('/icons/arrow_uturn_left.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    vertical-align: -2px;
+  }
+
+  a[href^=http]::after {
+    content: "";
+    display: inline-block;
+
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+
+    background-image: url('/icons/arrow_up_right.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    vertical-align: -3px;
   }
 }

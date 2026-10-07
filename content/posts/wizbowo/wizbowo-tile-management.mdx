@@ -4,6 +4,7 @@ description: Learn about how we created a flexible, espansive tile system that b
 tags:
   Wizbowo's Conquest
 publishedAt: 2026-05-04
+modifiedAt: 2026-10-06
 visible: true
 ---
 
@@ -51,34 +52,30 @@ var liquid_type := PackedByteArray()
 This approach keeps the tightly-packed format, but has each tile property in its own array instead of packed into a single tile struct. In terms of memory usage, these approaches are largely comparable (although we favored a full `liquid_type{:.variable}` array for simplicity).
 
 <div className="bg-slate-200 p-4 mt-2 squeeze-r">
-<span className='text-lg font-semibold'>Performance Implication:</span>
+    <span className='text-lg font-semibold'>Performance Implication:</span>
 
-Terraria's approach will theoretically perform better in most cases (where multiple tile properties are accessed at once). This is because Terraria's data is interleaved, meaning there are typically less cache misses per tile access. This is simply a limitation with Godot (without modification).
+    Terraria's approach will theoretically perform better in most cases (where multiple tile properties are accessed at once). This is because Terraria's data is interleaved, meaning there are typically less cache misses per tile access. This is simply a limitation with Godot (without modification).
 </div>
 
 ## Asynchronous Tile Rendering
 We are using Godot's `TileMapLayer{:.class}` node for tile collision and rendering to keep things simple. This does come with a large downside, however: we cannot finely control the rendering system. Because of this, we had to implement a few workarounds in order to keep performance up. One important optimization is that chunks are logically (but not physically) separated into 16x16 tile chunks.
 
-### Auto-Tiling
+### Auto-Tiling Rules
 Wizbowo's Conquest follows a minimal 47-tile connection system for auto-tiling. This means that blocks will adjust their sprites based on their neighbors. Below is the exact template we use:
 
+<div className='mt-2 mb-2'>
 ![Tile connection template for a standard 48-tile system](/posts/wizbowo/tile-management/template.png)
+</div>
 
-            <br/>
-            
-                Determining what tile to select from this grid happens in two steps:
-            
-            <ol>
-                <li>Calculate whether or not cardinal neighbors exist (Up, Down, Left, Right)</li>
-                <li>For each diagonal neighbor that exists, only include them if their two cardinal neighbors (that are also in the center's range) also exist</li>
-            </ol>
+Determining what tile to select from this grid happens in two steps:
+1. Calculate whether or not cardinal neighbors exist (Up, Down, Left, Right)
+2. For each diagonal position, check to see if their two cardinal neighbors exist
 
-            
-                The second rule gives us a subset of the full 255-tile set that requires just 47 tiles. This is typically enough for most games (and requires a lot less work), so it's what we chose for Wizbowo's Conquest. In practice, the auto-tile calculation looks like this:
-            
+#### Implementation
+The second rule gives us a subset of the full 255-tile set that requires just 47 tiles. This is typically enough for most games (and requires a lot less work), so it's what we chose for Wizbowo's Conquest. In practice, the auto-tile calculation looks like this:
 
-            <div title="Auto-Tile Calculation" className={codeStyle.code_block} style={blogStyle}>
-{`# store tiles in a bitmask format
+```gdscript title="GDScript | Auto-Tile Calculations"
+# store tiles in a bitmask format
 value = 0b00000000
 
 # cardinal neighbors
@@ -99,19 +96,20 @@ if value & 1 and value & 4 and is_solid[prev_blocks[x + 1]]:
 if value & 8 and value & 2 and is_solid[next_blocks[x - 1]]:
     value += 64
 if value & 8 and value & 4 and is_solid[next_blocks[x + 1]]:
-    value += 128`}
-            </div>
+    value += 128
+```
 
-            
-                Auto-tiling is performed whenever a new chunk is sent to client. An optimization here would be to simply cache the auto-tiling results for each tile instead of calculating it whenever we render a new chunk. Our current setup has the auto-tiling calculation taking up around half the frame time, with the other half going to updating the tilemap. This means that this optimization could theoretically double the number of chunks we can render, although it would increase memory requirements and network throughput.
-            
-            
-            <h3>Update Queue</h3>
-            
-                Speaking of rendering time, in order to keep gameplay smooth, we limit the number of chunks we update in a single frame. Instead of having a hard count, we limit based on current update time. For Wizbowo's Conquest, we found 4 milliseconds to be an reasonable value:
-            
-            <div title="Chunk Update Queue" className={codeStyle.code_block} style={blogStyle}>
-{`# store the start time
+<div className="bg-slate-200 p-4 mt-4 squeeze-r">
+    <span className='text-lg font-semibold'>Potential Optimization:</span>
+    
+    Auto-tiling is performed whenever a new chunk is sent to client. An optimization here would be to simply cache the auto-tiling results for each tile instead of calculating it whenever we render a new chunk. Our current setup has the auto-tiling calculation taking up around half the frame time, with the other half going to updating the tilemap. This means that this optimization could theoretically double the number of chunks we can render, although it would increase memory requirements and network throughput.
+</div>
+
+### Update Queue
+Speaking of rendering time, in order to keep gameplay smooth, we limit the number of chunks we update in a single frame. Instead of having a hard count, we limit based on current update time. For Wizbowo's Conquest, we found 4 milliseconds to be an reasonable value:
+
+```gdscript title="GDScript | Check Update Queue"
+# store the start time
 var start := Time.get_ticks_usec()
 		
 for chunk in chunks:
@@ -130,17 +128,14 @@ for chunk in chunks:
         
         # only process for up to 4ms
         if Time.get_ticks_usec() - start >= 4000:
-            break`}
-            </div>
+            break
+```
 
-            <h2>Live Updating</h2>
-            
-            
-                Since Wizbowo's Conquest is a real-time multiplayer game, we need to synchronize tile updates whenever blocks are placed and destroyed. Instead of running the full, expensive auto-tiling system each frame, we can just update the 3x3 range around the block that was modified. More mature tile management systems might batch these updates, but for Wizbowo's Conquest, we just updated tiles immediately when they changed.
-            
+## Live Updating
+Since Wizbowo's Conquest is a real-time multiplayer game, we need to synchronize tile updates whenever blocks are placed and destroyed. Instead of running the full, expensive auto-tiling system each frame, we can just update the 3x3 range around the block that was modified. More mature tile management systems might batch these updates, but for Wizbowo's Conquest, we just update tiles immediately after they change.
 
-            <div title="Single-Tile Updates" className={codeStyle.code_block} style={blogStyle}>
-{`func update_tile(x: int, y: int) -> void:
+```gdscript title="GDScript | Single-Tile Updates"
+func update_tile(x: int, y: int) -> void:
     # get tile maps
     var blocks: TileMapLayer = $'blocks'
     var walls: TileMapLayer = $'walls'
@@ -161,23 +156,19 @@ for chunk in chunks:
         walls.set_cell(Vector2i(x, y), wall, Vector2i(2, 2))
 
     # auto-tile neighbors
-    autotile_region(x - 1, y - 1, 3, 3)`}
-            </div>
+    autotile_region(x - 1, y - 1, 3, 3)
+```
+<div className="bg-slate-200 p-4 mt-4 squeeze-r">
+    <span className='text-lg font-semibold'>Implementation Detail:</span>
+    
+    In this snippet, the `#set blocks/walls` sections are part of an old approach we attempted. Instead of having sections of the world have no tiles while loading, we originally set them to placeholders (the tile at `(2, 2)` is the "center fill" tile). We found this to be more visually jarring in most cases, but we left it in here to prevent flickering.
+</div>
 
-            <div className={blogStyle.note}>
-                
-                    In this snippet, the <code>set blocks/walls</code> sections are part of an old approach we attempted. Instead of having sections of the world have no tiles while loading, we originally set them to placeholders (the tile at (2, 2) is the "center fill" tile). We found this to be more visually jarring in practice, so we removed it from the bulk of the auto-tiling logic. It's still in this snippet since the flicker it caused was unnoticeable.
-                
-            </div>
+## Liquid Rendering
+Most of the tiles in Wizbowo's Conquest are rendering using Godot's `TileMapLayer{:.class}` node. However, these can be cumbersome for large updates (hence why we had to limit the allowed processing time). Additionally, they are not thread-safe (in fact, no `SceneTree{:.class}` changes are allowed on other threads). To get around this, we used a shader-based approach for the two liquid types we have: water and lava.
 
-            <h2>Liquid Rendering</h2>
-            
-            
-                Most of the tiles in Wizbowo's Conquest are rendering using Godot's <code>TileMapLayer</code> node. However, these can be cumbersome for large updates (hence why we had to limit the allowed processing time). Additionally, they are not thread-safe (in fact, no scene tree changes are allowed on other threads). To get around this, we used a shader-based approach for the two liquid types we have: water and lava.
-            
-
-            <div title="Water Shader" className={codeStyle.code_block} style={blogStyle}>
-{`void vertex() {
+```glsl title="GDShader (GLSL) | Water Shader"
+void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
 }
 
@@ -199,22 +190,28 @@ void fragment() {
 	
 	// Only color up to water level
 	COLOR.a *= step(local_level, water_level);
-}`}
-            </div>
+}
+```
 
-            <div className={blogStyle.note}>
-                
-                    This shader also handles drawing foam along the edges of each tile as collapsing columns into a single continuous stream rather than stacked low-level blocks. This has been omitted to conserve space, the full file is located here: [Wizbowo's Conquest GitHub](https://github.com/KingToot14/cmsc-473-game/blob/main/blocks/_resources/water_renderer.gdshader)
-                
-            </div>
+<div className="bg-slate-200 p-4 mt-4 mb-4 squeeze-r">
+    <span className='text-lg font-semibold'>Implementation Detail:</span>
 
+    This shader also handles drawing foam along the edges of the water and collapsing sparse columns into a continuous stream. This has been omitted to conserve space, the full file is located here: [Wizbowo's Conquest GitHub](https://github.com/KingToot14/cmsc-473-game/blob/main/blocks/_resources/water_renderer.gdshader)
+</div>
+
+There are a few important details about this shader setup:
+- The shader is connected to the player scene, rendering in front of the player but behind the tiles.
+- The UVs are translated from local space to world space.
+- The texture itself is 176x112 and snaps to the top-leftmost visible chunk.
+    - This specific setup causes the player to never see seams in the water renderer.
             
-                This shader is placed in the player scene and renders on top of the player, but below the tiles. The vertex function transforms the UVs from local space to world space, allowing us to access the water texture per-tile. Speaking of the water texture, it's a 176x112 texture that represents the current water level relative to the top-leftmost chunk visble on the screen. This means that no matter where the player is, they shouldn't see any seams in the water rendering. The image generation is also threaded, so it doesn't slow down the main process:
-            
+### Threaded Generation
+Creating a texture pixel-by-pixel can be pretty expensive, so we decided to offload this task to another thread. We can do this with image generation since we don't need the main thread to actually create the images:
 
-            <div title="Water Texture Generation" className={codeStyle.code_block} style={blogStyle}>
-{`func _rebuild_liquid_texture_internal(origin: Vector2i) -> void:
-	water_data = PackedByteArray()
+```gdscript title="GDScript | Water Texture Generation"
+func _rebuild_liquid_texture_internal(origin: Vector2i) -> void:
+	# allocate water and lava data
+    water_data = PackedByteArray()
 	water_data.resize(WATER_WIDTH * WATER_HEIGHT)
 	lava_data = PackedByteArray()
 	lava_data.resize(WATER_WIDTH * WATER_HEIGHT)
@@ -229,6 +226,7 @@ void fragment() {
 			if origin.y + y < world_height and origin.x + x < world_width:
 				var type := liquid_type[row + origin.x + x]
 				
+                # generate both textures at once for efficiency
 				if type == WaterUpdater.WATER_TYPE:
 					water_data[index] = liquid[row + origin.x + x]
 				elif type == WaterUpdater.LAVA_TYPE:
@@ -236,17 +234,16 @@ void fragment() {
 			
 			index += 1
 	
-	_update_liquid_texture_internal.call_deferred(origin)`}
-            </div>
+    # once done, route back to the main thread to update shaders
+	_update_liquid_texture_internal.call_deferred(origin)
+```
 
-            <h2>Lighting System</h2>
+## Lighting System
+Terraria's rendering system adds tile-based lighting during the main rendering step. For the same reasons as the liquid renderer (tile map overhead + lack of threading support), we did not use a `TileMapLayer:{.class}` node.
+- If we had a lower-level implementation, we could just add the current tile light to the current tile being rendered, but the image-based approach ended up working surprisingly well.
 
-            
-                Terraria's rendering system adds the tile light directly to the tile rendering. For the same reasons as the liquid renderer, we did not use a <code>TileMapLayer</code> node (tile map overhead + lack of threading support). If we had a lower-level implementation, we could just add the current tile light to the current tile being rendered, but the image-based approach ended up working surprisingly well.
-            
-
-            <div title="Light Renderer" style={blogStyle} className={codeStyle.code_block}>
-{`shader_type canvas_item;
+```glsl title="Light Renderer"
+shader_type canvas_item;
 render_mode blend_mul;
 
 // --- Uniforms --- //
@@ -278,15 +275,10 @@ void fragment() {
 		sky_color * texture(sky_texture, tile_position / tex_size).r;
 	
 	COLOR *= color;
-}`}
-            </div>
+}
+```
 
-            
-                Similar to the liquid renderer, the lighting is attached to the player scene. However, since we want the light to determine the brightness of the scene, we need to set the <code>render_mode</code> to <code>blend_mul</code> instead of the default <code>blend_mix</code> mode. This multiplies the current screen pixels by the rendered light pixel, meaning full white pixels remain the same while colored/black pixel are obscurred.
-            
+Similar to the liquid renderer, the lighting is attached to the player scene. However, since we want the light to determine the brightness of the scene, we need to set the `render_mode{:.keyword}` to `blend_mul{:.variable}` instead of the default `blend_mix{:.variable}` mode. This multiplies the current screen pixels by the rendered light pixel, meaning full white pixels remain the same while colored/black pixel are obscurred.
 
-            <h2>Conclusion</h2>
-
-            
-                Overall, given the limitations we had with our high-level Godot approach, we are very happy with how the tile management system turned out. It works well enough to have smooth gameplay during normal conditions, and we believe it was optimized as much as it could be given that we had to build the entirety of Wizbowo's Conquest over the course of 1 semester.
-            
+## Conclusion
+Overall, given the limitations of working with Godot's built-in systems, we are very happy with how the world looks and feels. It works well enough to have smooth gameplay during normal conditions. While there were likely more custom approaches we could have taken, we are satisfied with what we managed to squeeze out of this system in just 1 semester of development.
