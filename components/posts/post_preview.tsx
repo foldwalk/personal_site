@@ -2,15 +2,17 @@ import { MDXRemote } from "next-mdx-remote/rsc"
 import { notFound } from "next/navigation"
 import remarkGfm from "remark-gfm"
 
-import { Post, getPostPreview } from "@/lib/posts/posts"
+import { PostInfo, getPostPreview } from "@/lib/posts/posts"
 
-export default async function PostPreview({ post }: { post: Post }) {
+type Props = { post: PostInfo | null, className?: string }
+
+export default async function PostPreview({ post, className = "" }: Props) {
   if (post) {
     // Process Preview
     post.content = getPostPreview(post.content);
 
     return (
-      <>
+      <div className={className}>
         <h1>{post.meta.title}</h1>
 
         <MDXRemote
@@ -21,7 +23,7 @@ export default async function PostPreview({ post }: { post: Post }) {
             }
           }}
         />
-      </>
+      </div>
     )
   } else {
     return notFound();
