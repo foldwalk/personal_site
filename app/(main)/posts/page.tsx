@@ -23,6 +23,8 @@ export default async function Posts() {
               p-4
               bg-slate-200
               [&_h2]:text-2xl
+              [&_.publish-date]:text-lg
+              [&_.modify-date]:text-lg [&_.modify-date]:ml-3 [&_.modify-date]:text-slate-600
               even:squeeze-l
               odd:squeeze-r
             "

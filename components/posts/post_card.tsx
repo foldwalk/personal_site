@@ -9,6 +9,21 @@ export default async function PostCard({ post, className = "" }: Props) {
       <Link className={className} href={`/posts/${post.meta.slug}`}>
         <div>
           <h2>{post.meta.title}</h2>
+
+          <span className="publish-date">
+            {post.meta.publishedAt.toLocaleDateString('en-US',
+              { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' }
+            )}
+          </span>
+
+          {post.meta.modifiedAt &&
+            <span className="modify-date">
+              (modified {post.meta.modifiedAt.toLocaleDateString('en-US',
+                { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' }
+              )})
+            </span>
+          }
+
           <p>
             {post.meta.description}
           </p>

@@ -34,11 +34,11 @@ class ItemStack:
 
 As you can see, it is very simple. The inventory is just an array of these item stacks, fixed to a size of 50 slots.
 
-<div className="bg-slate-200 p-4 mt-4 mb-4 squeeze-r">
+<aside className="bg-slate-200 p-4 mt-4 mb-4 squeeze-r">
   <span className='text-lg font-semibold'>Implementation Detail:</span>
 
   Items are referenced by their item IDs, integers that help keep everything organized. Those item IDs are picked up by the `ItemDatabase{:.class}` script from our file system. Our items are all named in the following pattern, `#_itemName{:.string.quoted}`. The `ItemDatabase{:.class}` simply splits the number from the `itemName{:.string.quoted}` so it can be referenced in other scripts using its `get_item{:.entity.name.function}` method.
-</div>
+</aside>
 
 The final thing for this overview of the Inventory is that the Server is the final authority for what items are where. This means that most methods either check if they are running on the server with `multiplayer.is_server{:.variable}` or send a Remote Procedure Call (RPC) to the server to tell the server that the client did something. This caused quite a few headaches but is absolutely necessary for a multiplayer game to function.
 

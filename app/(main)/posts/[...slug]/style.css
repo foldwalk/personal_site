@@ -34,6 +34,17 @@
     padding-bottom: calc(2 * var(--spacing));
   }
 
+  .publish-date {
+    font-size: var(--text-xl);
+  }
+
+  .modify-date {
+    font-size: var(--text-xl);
+    color: var(--color-slate-500);
+
+    margin-left: calc(4 * var(--spacing));
+  }
+
   a {
     text-decoration: underline;
     text-underline-offset: 2px;
