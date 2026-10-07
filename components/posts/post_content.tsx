@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import remarkGfm from "remark-gfm"
-import rehypePrettyCode from "rehype-pretty-code"
+import rehypePrettyCode, { Options } from "rehype-pretty-code"
 
 import { PostInfo } from "@/lib/posts/posts"
 
@@ -35,11 +35,20 @@ const MDXComponents = {
   )
 }
 
+const PrettyCodeOptions: Options = {
+  theme: {
+    light: "night-owl-light",
+    dark: "night-owl",
+  },
+}
+
 export default async function PostContent({ post, className = "" }: Props) {
   if (post) {
     return (
       <div className={className}>
-        <h1>{post.meta.title}</h1>
+        <Link href="/posts">Return to Articles</Link>
+
+        <h1 className="mt-4">{post.meta.title}</h1>
 
         <MDXRemote
           source={post.content}
@@ -47,7 +56,7 @@ export default async function PostContent({ post, className = "" }: Props) {
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypePrettyCode],
+              rehypePlugins: [[rehypePrettyCode, PrettyCodeOptions]],
             }
           }}
           />

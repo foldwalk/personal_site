@@ -1,5 +1,7 @@
+import "./style.css";
+
 import { notFound } from "next/navigation";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 import { getPost } from "@/lib/posts/posts";
 import PostContent from "@/components/posts/post_content";
@@ -33,7 +35,10 @@ export default async function Page({ params }: PostProps) {
 
   return (
     <article className="w-11/12 mt-10 mb-10 p-5 pt-8 pb-10 bg-background md:w-8/12 md:p-8 md:pb-10 clipped-panel">
-      <PostContent post={post} />
+      <PostContent post={post} className="
+          post-content mt-4
+        "
+      />
     </article>
   );
 }
