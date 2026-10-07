@@ -7,6 +7,7 @@ import Link from "next/link"
 
 import remarkGfm from "remark-gfm"
 import rehypePrettyCode, { Options } from "rehype-pretty-code"
+import rehypeImgSize from "rehype-img-size"
 
 import { PostInfo } from "@/lib/posts/posts"
 
@@ -30,8 +31,12 @@ const MDXComponents = {
     <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
   },
 
-  Image: (props: ComponentProps<typeof Image>) => (
-    <Image {...props} />
+  img: (props: any) => (
+    <Image
+      width={props.width || 800}
+      height={props.height || 600}
+      {...props}
+    />
   )
 }
 
@@ -56,7 +61,10 @@ export default async function PostContent({ post, className = "" }: Props) {
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [[rehypePrettyCode, PrettyCodeOptions]],
+              rehypePlugins: [
+                [rehypePrettyCode, PrettyCodeOptions],
+                [rehypeImgSize, { dir: "public" }],
+              ],
             }
           }}
           />

@@ -62,7 +62,7 @@ figcaption[data-rehype-pretty-code-title] {
   font-family: var(--default-mono-font-family);
 }
 
-code {
+pre > code {
   padding: calc(2 * var(--spacing));
   padding-top: calc(1 * var(--spacing));
 }
