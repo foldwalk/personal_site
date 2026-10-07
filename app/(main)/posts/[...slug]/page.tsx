@@ -3,7 +3,7 @@ import "./style.css";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-import { getPost } from "@/lib/posts/posts";
+import { getPost, getPosts } from "@/lib/posts/posts";
 import PostContent from "@/components/posts/post_content";
 
 type PostProps = {
@@ -22,6 +22,18 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     title: post.meta.title,
     description: post.meta.description,
   }
+}
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+
+  return posts.map((post) => {
+    const slugStr = post?.meta.slug;
+    
+    return {
+      slug: slugStr ? slugStr.split('/').filter(Boolean) : []
+    }
+  })
 }
 
 export default async function Page({ params }: PostProps) {

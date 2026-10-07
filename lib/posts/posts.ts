@@ -19,10 +19,10 @@ export type PostInfo = {meta: PostMetadata, content: string} | null
 const MORE_TAG = '{/* <-- more --> */}';
 
 // ========== Functions ========== //
-export async function getPosts(rootPath: string = "/content/posts"): Promise<PostInfo[]> {
+export async function getPosts(): Promise<PostInfo[]> {
   const filePath = path.join(
     process.cwd(),
-    rootPath
+    "/content/posts"
   );
 
   return _findPost(filePath);

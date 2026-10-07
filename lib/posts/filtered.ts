@@ -1,11 +1,8 @@
 import { getPosts } from "./posts"
 
-export async function getFilteredPosts(
-    rootPath: string = "/content/posts", count: number = -1,
-    tags: string[] = []
-  ) {
+export async function getFilteredPosts(count: number = -1, tags: string[] = []) {
   
-  let posts = await getPosts(rootPath);
+  let posts = await getPosts();
 
   // filter tags
   if (tags.length > 0) {
